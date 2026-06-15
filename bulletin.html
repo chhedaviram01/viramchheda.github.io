@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>India PE Weekly — Viram Chheda</title>
+  <meta name="description" content="India PE Weekly — original private equity intelligence on Indian growth markets by Viram Chheda." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:  #0A0F1E;
+      --cream: #F5F5F0;
+      --gold:  #C9A84C;
+      --gold-dim: rgba(201,168,76,0.12);
+      --cream-dim: rgba(245,245,240,0.55);
+      --max-w: 760px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(10,15,30,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.18);
+    }
+
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--cream-dim);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--gold); }
+
+    .page-header {
+      padding: 140px 24px 72px;
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+    }
+
+    .page-header-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 700;
+      line-height: 1.08;
+      color: var(--cream);
+      margin-bottom: 20px;
+    }
+
+    .page-sub {
+      font-size: 17px;
+      color: var(--cream-dim);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .archive {
+      padding: 72px 24px 120px;
+    }
+
+    .archive-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .issue-row {
+      display: grid;
+      grid-template-columns: 96px 1fr auto;
+      gap: 0 32px;
+      align-items: center;
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(245,245,240,0.07);
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .issue-row:first-child { border-top: 1px solid rgba(245,245,240,0.07); }
+
+    .issue-row:hover { background: var(--gold-dim); padding-left: 16px; padding-right: 16px; margin: 0 -16px; }
+
+    .issue-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gold);
+      opacity: 0.5;
+    }
+
+    .issue-body {}
+
+    .issue-date {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .issue-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .issue-desc {
+      font-size: 14px;
+      color: var(--cream-dim);
+      line-height: 1.55;
+    }
+
+    .issue-arrow {
+      color: var(--gold);
+      font-size: 20px;
+      opacity: 0.45;
+      transition: opacity 0.2s;
+    }
+
+    .issue-row:hover .issue-arrow { opacity: 1; }
+
+    footer {
+      padding: 32px 24px;
+      border-top: 1px solid rgba(245,245,240,0.07);
+    }
+
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy { font-size: 13px; color: rgba(245,245,240,0.3); }
+    .footer-domain { font-family: 'Playfair Display', serif; font-size: 13px; color: var(--gold); opacity: 0.6; }
+
+    @media (max-width: 680px) {
+      .nav-links { display: none; }
+      .issue-row { grid-template-columns: 60px 1fr; }
+      .issue-arrow { display: none; }
+      .footer-inner { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">VC</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="bulletin.html" class="active">India PE Weekly</a></li>
+        <li><a href="#">Dissertation</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="page-header-inner">
+      <p class="section-label">Archive</p>
+      <h1>India PE Weekly</h1>
+      <p class="page-sub">Original private equity intelligence on Indian growth markets. Published every week. No filler, no aggregation — primary analysis only.</p>
+    </div>
+  </header>
+
+  <main class="archive">
+    <div class="archive-inner">
+
+      <a href="#" class="issue-row">
+        <span class="issue-number">005</span>
+        <div class="issue-body">
+          <p class="issue-date">June 2026</p>
+          <p class="issue-title">DCF vs Comparable Company vs Precedent Transaction Valuation</p>
+          <p class="issue-desc">A technical deep-dive into the three core valuation methodologies used in Indian PE deal structuring.</p>
+        </div>
+        <span class="issue-arrow">&rarr;</span>
+      </a>
+
+      <a href="#" class="issue-row">
+        <span class="issue-number">004</span>
+        <div class="issue-body">
+          <p class="issue-date">June 2026</p>
+          <p class="issue-title">Piramal × DHFL: Anatomy of an IBC Resolution</p>
+          <p class="issue-desc">How Piramal Capital navigated the DHFL insolvency — the largest retail NBFC resolution in India's history.</p>
+        </div>
+        <span class="issue-arrow">&rarr;</span>
+      </a>
+
+      <a href="#" class="issue-row">
+        <span class="issue-number">003</span>
+        <div class="issue-body">
+          <p class="issue-date">May 2026</p>
+          <p class="issue-title">KKR × Max Healthcare: The Platform Play</p>
+          <p class="issue-desc">Deconstructing KKR's multi-tranche bet on Indian healthcare infrastructure and the returns thesis.</p>
+        </div>
+        <span class="issue-arrow">&rarr;</span>
+      </a>
+
+      <a href="#" class="issue-row">
+        <span class="issue-number">002</span>
+        <div class="issue-body">
+          <p class="issue-date">May 2026</p>
+          <p class="issue-title">ChrysCapital × Mankind Pharma: The Pre-IPO Bet</p>
+          <p class="issue-desc">How ChrysCapital built a ₹1,500 crore position and what the IPO arbitrage looked like from inside the cap table.</p>
+        </div>
+        <span class="issue-arrow">&rarr;</span>
+      </a>
+
+      <a href="#" class="issue-row">
+        <span class="issue-number">001</span>
+        <div class="issue-body">
+          <p class="issue-date">May 2026</p>
+          <p class="issue-title">Warburg Pincus × Bharti Airtel: The Long Game</p>
+          <p class="issue-desc">A 20-year case study in patient capital — how Warburg held through India's telecom price wars and still won.</p>
+        </div>
+        <span class="issue-arrow">&rarr;</span>
+      </a>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p class="footer-copy">&copy; 2026 Viram Chheda. All rights reserved.</p>
+      <p class="footer-domain">viramchheda.capital</p>
+    </div>
+  </footer>
+
+</body>
+</html>
