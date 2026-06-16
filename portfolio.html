@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Viram Chheda</title>
+  <meta name="description" content="Portfolio of work by Viram Chheda — Machine Learning, Financial Models, and Research." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0A0F1E;
+      --cream: #F5F5F0;
+      --gold: #C9A84C;
+      --gold-dim: rgba(201,168,76,0.12);
+      --cream-dim: rgba(245,245,240,0.55);
+      --max-w: 760px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--navy);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(10,15,30,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.18);
+    }
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--cream-dim);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--gold); }
+
+    .page-header {
+      padding: 140px 24px 72px;
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+    }
+    .page-header-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 700;
+      line-height: 1.08;
+      color: var(--cream);
+      margin-bottom: 20px;
+    }
+    .page-sub {
+      font-size: 17px;
+      color: var(--cream-dim);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .portfolio-grid {
+      padding: 72px 24px 120px;
+    }
+    .portfolio-grid-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+
+    .portfolio-card {
+      border: 1px solid rgba(201,168,76,0.15);
+      padding: 40px 40px;
+      text-decoration: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s, border-color 0.2s;
+      position: relative;
+    }
+    .portfolio-card:hover {
+      background: var(--gold-dim);
+      border-color: rgba(201,168,76,0.4);
+    }
+    .card-left {}
+    .card-number {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    .card-desc {
+      font-size: 15px;
+      color: var(--cream-dim);
+      max-width: 480px;
+      line-height: 1.6;
+    }
+    .card-status {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.35);
+      padding: 4px 12px;
+    }
+    .card-arrow {
+      color: var(--gold);
+      font-size: 24px;
+      opacity: 0.45;
+      margin-left: 32px;
+      flex-shrink: 0;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .portfolio-card:hover .card-arrow {
+      opacity: 1;
+      transform: translateX(4px);
+    }
+
+    footer {
+      padding: 32px 24px;
+      border-top: 1px solid rgba(245,245,240,0.07);
+    }
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy { font-size: 13px; color: rgba(245,245,240,0.3); }
+    .footer-domain { font-family: 'Playfair Display', serif; font-size: 13px; color: var(--gold); opacity: 0.6; }
+
+    @media (max-width: 680px) {
+      .nav-links { display: none; }
+      .portfolio-card { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .card-arrow { margin-left: 0; }
+      .footer-inner { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">VC</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="bulletin.html">India PE Weekly</a></li>
+        <li><a href="portfolio.html" class="active">Portfolio</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="page-header-inner">
+      <p class="section-label">Work</p>
+      <h1>Portfolio</h1>
+      <p class="page-sub">A growing collection of original work across machine learning, financial modelling, and market research. Updated as projects are completed.</p>
+    </div>
+  </header>
+
+  <main class="portfolio-grid">
+    <div class="portfolio-grid-inner">
+
+      <a href="portfolio-machine-learning.html" class="portfolio-card">
+        <div class="card-left">
+          <p class="card-number">01 &nbsp;·&nbsp; Machine Learning</p>
+          <p class="card-title">Predicting Maximum Drawdown in Indian Equity Markets</p>
+          <p class="card-desc">A comparative analysis of ML models using the Nifty 50 Index (2008–2026). UCL MSc Dissertation.</p>
+          <span class="card-status">In Progress</span>
+        </div>
+        <span class="card-arrow">&rarr;</span>
+      </a>
+
+      <a href="portfolio-financial-models.html" class="portfolio-card">
+        <div class="card-left">
+          <p class="card-number">02 &nbsp;·&nbsp; Financial Models</p>
+          <p class="card-title">Valuation & Financial Modelling</p>
+          <p class="card-desc">DCF models, comparable company analysis, and LBO frameworks built across Indian and UK markets.</p>
+          <span class="card-status">Coming Soon</span>
+        </div>
+        <span class="card-arrow">&rarr;</span>
+      </a>
+
+      <a href="portfolio-research.html" class="portfolio-card">
+        <div class="card-left">
+          <p class="card-number">03 &nbsp;·&nbsp; Research</p>
+          <p class="card-title">Equity Research & Market Analysis</p>
+          <p class="card-desc">Original equity research covering Indian and UK-listed companies, sector deep-dives, and investment theses.</p>
+          <span class="card-status">Coming Soon</span>
+        </div>
+        <span class="card-arrow">&rarr;</span>
+      </a>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p class="footer-copy">&copy; 2026 Viram Chheda. All rights reserved.</p>
+      <p class="footer-domain">viramchheda.capital</p>
+    </div>
+  </footer>
+
+</body>
+</html>

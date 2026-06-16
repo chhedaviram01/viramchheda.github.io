@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Machine Learning — Viram Chheda</title>
+  <meta name="description" content="Machine Learning research by Viram Chheda — Predicting Maximum Drawdown in Indian Equity Markets." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0A0F1E;
+      --cream: #F5F5F0;
+      --gold: #C9A84C;
+      --gold-dim: rgba(201,168,76,0.12);
+      --cream-dim: rgba(245,245,240,0.55);
+      --max-w: 760px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--navy);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(10,15,30,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.18);
+    }
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--cream-dim);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--gold); }
+
+    .page-header {
+      padding: 140px 24px 72px;
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+    }
+    .page-header-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .breadcrumb {
+      font-size: 12px;
+      color: var(--cream-dim);
+      margin-bottom: 24px;
+      letter-spacing: 0.06em;
+    }
+    .breadcrumb a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--cream);
+      margin-bottom: 20px;
+    }
+    .page-sub {
+      font-size: 17px;
+      color: var(--cream-dim);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .content {
+      padding: 72px 24px 120px;
+    }
+    .content-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid rgba(201,168,76,0.15);
+      margin-bottom: 64px;
+    }
+    .meta-item {
+      padding: 28px 32px;
+      border-right: 1px solid rgba(201,168,76,0.15);
+    }
+    .meta-item:last-child { border-right: none; }
+    .meta-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .meta-value {
+      font-size: 15px;
+      color: var(--cream);
+      font-weight: 500;
+    }
+
+    .status-banner {
+      border: 1px solid rgba(201,168,76,0.3);
+      background: rgba(201,168,76,0.06);
+      padding: 32px 40px;
+      margin-bottom: 64px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .status-text {
+      font-size: 15px;
+      color: var(--cream-dim);
+      line-height: 1.6;
+    }
+    .status-text strong {
+      color: var(--cream);
+      font-weight: 600;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .overview-block {
+      margin-bottom: 56px;
+    }
+    .overview-block p {
+      font-size: 16px;
+      color: var(--cream-dim);
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+
+    .model-list {
+      margin-bottom: 56px;
+    }
+    .model-row {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(245,245,240,0.07);
+      align-items: start;
+    }
+    .model-row:first-child { border-top: 1px solid rgba(245,245,240,0.07); }
+    .model-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+      opacity: 0.5;
+    }
+    .model-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 4px;
+    }
+    .model-desc {
+      font-size: 14px;
+      color: var(--cream-dim);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid rgba(201,168,76,0.35);
+      padding-bottom: 2px;
+      transition: border-color 0.2s;
+    }
+    .back-link:hover { border-color: var(--gold); }
+
+    footer {
+      padding: 32px 24px;
+      border-top: 1px solid rgba(245,245,240,0.07);
+    }
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy { font-size: 13px; color: rgba(245,245,240,0.3); }
+    .footer-domain { font-family: 'Playfair Display', serif; font-size: 13px; color: var(--gold); opacity: 0.6; }
+
+    @media (max-width: 680px) {
+      .nav-links { display: none; }
+      .meta-grid { grid-template-columns: 1fr; }
+      .meta-item { border-right: none; border-bottom: 1px solid rgba(201,168,76,0.15); }
+      .meta-item:last-child { border-bottom: none; }
+      .footer-inner { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">VC</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="bulletin.html">India PE Weekly</a></li>
+        <li><a href="portfolio.html" class="active">Portfolio</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="page-header-inner">
+      <p class="breadcrumb"><a href="portfolio.html">Portfolio</a> &nbsp;/&nbsp; Machine Learning</p>
+      <p class="section-label">01 · Machine Learning</p>
+      <h1>Predicting Maximum Drawdown in Indian Equity Markets</h1>
+      <p class="page-sub">A comparative analysis of machine learning models using the Nifty 50 Index (2008–2026). UCL MSc Dissertation.</p>
+    </div>
+  </header>
+
+  <main class="content">
+    <div class="content-inner">
+
+      <div class="meta-grid">
+        <div class="meta-item">
+          <p class="meta-label">Institution</p>
+          <p class="meta-value">UCL</p>
+        </div>
+        <div class="meta-item">
+          <p class="meta-label">Expected</p>
+          <p class="meta-value">August 2026</p>
+        </div>
+        <div class="meta-item">
+          <p class="meta-label">Status</p>
+          <p class="meta-value">In Progress</p>
+        </div>
+      </div>
+
+      <div class="status-banner">
+        <div class="status-dot"></div>
+        <p class="status-text"><strong>This project is currently in progress.</strong> Full findings, model outputs, and the complete dissertation will be published here upon submission in August 2026.</p>
+      </div>
+
+      <div class="overview-block">
+        <h2>Overview</h2>
+        <p>This dissertation investigates whether machine learning models can outperform traditional statistical methods in predicting maximum drawdown — the peak-to-trough decline — in the Indian equity market, using the Nifty 50 Index as the primary data series.</p>
+        <p>The research covers the period 2008 to 2026, deliberately including the 2008 global financial crisis, the 2020 COVID-19 crash, and the subsequent recovery, to stress-test model performance across distinct market regimes.</p>
+      </div>
+
+      <div class="model-list">
+        <h2>Model Framework</h2>
+        <div class="model-row">
+          <span class="model-num">1</span>
+          <div>
+            <p class="model-name">Linear Regression</p>
+            <p class="model-desc">Baseline model. Establishes a performance floor against which all subsequent models are benchmarked.</p>
+          </div>
+        </div>
+        <div class="model-row">
+          <span class="model-num">2</span>
+          <div>
+            <p class="model-name">Ridge Regression</p>
+            <p class="model-desc">Regularised linear model. Tests whether penalising coefficient magnitude improves out-of-sample prediction.</p>
+          </div>
+        </div>
+        <div class="model-row">
+          <span class="model-num">3</span>
+          <div>
+            <p class="model-name">Random Forest</p>
+            <p class="model-desc">Ensemble tree model. Captures non-linear relationships between engineered features and drawdown magnitude.</p>
+          </div>
+        </div>
+        <div class="model-row">
+          <span class="model-num">4</span>
+          <div>
+            <p class="model-name">XGBoost</p>
+            <p class="model-desc">Gradient boosted trees. The most complex model in the ladder — evaluated for marginal gain over Random Forest.</p>
+          </div>
+        </div>
+      </div>
+
+      <a href="portfolio.html" class="back-link">&larr; Back to Portfolio</a>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p class="footer-copy">&copy; 2026 Viram Chheda. All rights reserved.</p>
+      <p class="footer-domain">viramchheda.capital</p>
+    </div>
+  </footer>
+
+</body>
+</html>

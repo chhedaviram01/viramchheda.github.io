@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Financial Models — Viram Chheda</title>
+  <meta name="description" content="Financial modelling work by Viram Chheda — DCF, LBO, comparable company analysis across Indian and UK markets." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0A0F1E;
+      --cream: #F5F5F0;
+      --gold: #C9A84C;
+      --gold-dim: rgba(201,168,76,0.12);
+      --cream-dim: rgba(245,245,240,0.55);
+      --max-w: 760px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--navy);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(10,15,30,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.18);
+    }
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--cream-dim);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--gold); }
+
+    .page-header {
+      padding: 140px 24px 72px;
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+    }
+    .page-header-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .breadcrumb {
+      font-size: 12px;
+      color: var(--cream-dim);
+      margin-bottom: 24px;
+      letter-spacing: 0.06em;
+    }
+    .breadcrumb a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--cream);
+      margin-bottom: 20px;
+    }
+    .page-sub {
+      font-size: 17px;
+      color: var(--cream-dim);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .content {
+      padding: 72px 24px 120px;
+    }
+    .content-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .coming-soon-block {
+      border: 1px solid rgba(201,168,76,0.2);
+      background: rgba(201,168,76,0.04);
+      padding: 64px 48px;
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .coming-soon-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .coming-soon-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+    .coming-soon-text {
+      font-size: 16px;
+      color: var(--cream-dim);
+      max-width: 440px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 20px;
+    }
+
+    .planned-list {
+      margin-bottom: 56px;
+    }
+    .planned-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(245,245,240,0.07);
+    }
+    .planned-row:first-child { border-top: 1px solid rgba(245,245,240,0.07); }
+    .planned-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0.4;
+      flex-shrink: 0;
+    }
+    .planned-name {
+      font-size: 16px;
+      color: var(--cream-dim);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid rgba(201,168,76,0.35);
+      padding-bottom: 2px;
+      transition: border-color 0.2s;
+    }
+    .back-link:hover { border-color: var(--gold); }
+
+    footer {
+      padding: 32px 24px;
+      border-top: 1px solid rgba(245,245,240,0.07);
+    }
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy { font-size: 13px; color: rgba(245,245,240,0.3); }
+    .footer-domain { font-family: 'Playfair Display', serif; font-size: 13px; color: var(--gold); opacity: 0.6; }
+
+    @media (max-width: 680px) {
+      .nav-links { display: none; }
+      .coming-soon-block { padding: 40px 24px; }
+      .footer-inner { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">VC</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="bulletin.html">India PE Weekly</a></li>
+        <li><a href="portfolio.html" class="active">Portfolio</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="page-header-inner">
+      <p class="breadcrumb"><a href="portfolio.html">Portfolio</a> &nbsp;/&nbsp; Financial Models</p>
+      <p class="section-label">02 · Financial Models</p>
+      <h1>Valuation & Financial Modelling</h1>
+      <p class="page-sub">DCF models, comparable company analysis, and LBO frameworks built across Indian and UK markets.</p>
+    </div>
+  </header>
+
+  <main class="content">
+    <div class="content-inner">
+
+      <div class="coming-soon-block">
+        <p class="coming-soon-label">Coming Soon</p>
+        <p class="coming-soon-title">Models in Development</p>
+        <p class="coming-soon-text">Financial models are currently being built and will be published here as they are completed. Check back soon.</p>
+      </div>
+
+      <div class="planned-list">
+        <h2>Planned Work</h2>
+        <div class="planned-row">
+          <span class="planned-dot"></span>
+          <p class="planned-name">DCF Model — Indian Consumer Sector</p>
+        </div>
+        <div class="planned-row">
+          <span class="planned-dot"></span>
+          <p class="planned-name">Comparable Company Analysis — Indian PE-backed firms</p>
+        </div>
+        <div class="planned-row">
+          <span class="planned-dot"></span>
+          <p class="planned-name">LBO Framework — Mid-market India buyout</p>
+        </div>
+        <div class="planned-row">
+          <span class="planned-dot"></span>
+          <p class="planned-name">Precedent Transaction Analysis — Indian Healthcare M&A</p>
+        </div>
+      </div>
+
+      <a href="portfolio.html" class="back-link">&larr; Back to Portfolio</a>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p class="footer-copy">&copy; 2026 Viram Chheda. All rights reserved.</p>
+      <p class="footer-domain">viramchheda.capital</p>
+    </div>
+  </footer>
+
+</body>
+</html>
