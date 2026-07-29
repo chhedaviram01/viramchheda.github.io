@@ -512,7 +512,7 @@
       const dateStr = fmt(d);
       try {
         const res = await fetch(
-          `https://api.frankfurter.dev/v2/rates?base=USD&symbols=INR&date=${dateStr}&providers=FBIL`
+          `https://api.frankfurter.dev/v2/rates?base=USD&symbols=INR&date=${dateStr}`
         );
         if (!res.ok) continue;
         const data = await res.json();
