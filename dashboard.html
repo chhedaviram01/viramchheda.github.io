@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Viram Chheda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #0A0F1E;
+      --cream:     #F5F5F0;
+      --gold:      #C9A84C;
+      --gold-dim:  rgba(201,168,76,0.12);
+      --cream-dim: rgba(245,245,240,0.55);
+      --red:       #E05252;
+      --green:     #4CAF7D;
+      --max-w:     760px;
+    }
+
+    body {
+      background: var(--navy);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      background: rgba(10,15,30,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.18);
+    }
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--cream-dim);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--gold); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 100px 24px 40px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+    }
+    .header-left {}
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.1;
+    }
+    .last-updated {
+      font-size: 12px;
+      color: var(--cream-dim);
+      text-align: right;
+      line-height: 1.6;
+    }
+    .last-updated span {
+      display: block;
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    /* ── GRID ── */
+    .grid-wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      border: 1px solid rgba(201,168,76,0.2);
+      padding: 24px 20px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      position: relative;
+      min-height: 130px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card:hover {
+      background: var(--gold-dim);
+      border-color: rgba(201,168,76,0.45);
+      transform: translateY(-2px);
+    }
+    .card-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .card-rate {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-change {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .card-period {
+      font-size: 10px;
+      color: var(--cream-dim);
+      letter-spacing: 0.06em;
+    }
+    .card-tap {
+      font-size: 10px;
+      color: rgba(201,168,76,0.4);
+      letter-spacing: 0.06em;
+      position: absolute;
+      bottom: 10px;
+      right: 14px;
+    }
+
+    /* ── PLACEHOLDER CARD ── */
+    .card-placeholder {
+      border: 1px dashed rgba(245,245,240,0.08);
+      min-height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-placeholder p {
+      font-size: 11px;
+      color: rgba(245,245,240,0.15);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── LOADING STATE ── */
+    .loading {
+      font-size: 13px;
+      color: var(--cream-dim);
+      font-style: italic;
+    }
+
+    /* ── CHANGE COLOURS ── */
+    .up   { color: var(--red); }
+    .down { color: var(--green); }
+    .flat { color: var(--cream-dim); }
+
+    /* ── MODAL OVERLAY ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(5,8,18,0.85);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .modal-overlay.open { display: flex; }
+
+    /* ── MODAL BOX ── */
+    .modal {
+      background: #0D1225;
+      border: 1px solid rgba(201,168,76,0.3);
+      width: 100%;
+      max-width: 480px;
+      padding: 36px 32px 28px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--cream-dim);
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: var(--gold); }
+    .modal-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .modal-rate {
+      font-family: 'Playfair Display', serif;
+      font-size: 44px;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+    .modal-source {
+      font-size: 11px;
+      color: var(--cream-dim);
+      margin-bottom: 28px;
+      letter-spacing: 0.04em;
+    }
+    .modal-divider {
+      border: none;
+      border-top: 1px solid rgba(245,245,240,0.08);
+      margin-bottom: 24px;
+    }
+    .modal-changes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .change-row {
+      padding: 14px 16px;
+      background: rgba(245,245,240,0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .change-period {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+    }
+    .change-values {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .change-abs {
+      font-size: 17px;
+      font-weight: 600;
+      font-family: 'Playfair Display', serif;
+    }
+    .change-pct {
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .change-from {
+      font-size: 10px;
+      color: rgba(245,245,240,0.3);
+      margin-top: 2px;
+    }
+    .modal-footer {
+      margin-top: 20px;
+      font-size: 11px;
+      color: rgba(245,245,240,0.25);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(245,245,240,0.06);
+      padding: 24px;
+    }
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy { font-size: 12px; color: rgba(245,245,240,0.25); }
+    .footer-domain { font-family: 'Playfair Display', serif; font-size: 12px; color: var(--gold); opacity: 0.5; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .page-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .last-updated { text-align: left; }
+      .grid-wrap { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .modal { padding: 28px 20px 22px; }
+      .modal-rate { font-size: 36px; }
+      .footer-inner { flex-direction: column; gap: 6px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">VC</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="bulletin.html">India PE Weekly</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<div class="page-header">
+  <div class="header-left">
+    <p class="section-label">Macro · Markets</p>
+    <h1>Dashboard</h1>
+  </div>
+  <div class="last-updated">
+    <span id="update-time">Fetching data...</span>
+    Refreshes at 2:00 PM IST daily
+  </div>
+</div>
+
+<!-- GRID -->
+<div class="grid-wrap">
+
+  <!-- USD/INR CARD -->
+  <div class="card" id="card-usdinr" onclick="openModal()" role="button" aria-label="USD/INR details">
+    <div>
+      <p class="card-label">USD / INR</p>
+      <p class="card-rate" id="card-rate"><span class="loading">Loading…</span></p>
+    </div>
+    <div class="card-bottom">
+      <span class="card-change" id="card-daily-change">—</span>
+      <span class="card-period">Daily</span>
+    </div>
+    <span class="card-tap">tap for details ↗</span>
+  </div>
+
+  <!-- PLACEHOLDER SLOTS -->
+  <div class="card-placeholder"><p>Coming Soon</p></div>
+  <div class="card-placeholder"><p>Coming Soon</p></div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="USD/INR details">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+
+    <p class="modal-label">FBIL Reference Rate · USD / INR</p>
+    <p class="modal-rate" id="modal-rate">—</p>
+    <p class="modal-source" id="modal-source">Source: FBIL via Frankfurter &nbsp;·&nbsp; As of —</p>
+
+    <hr class="modal-divider" />
+
+    <div class="modal-changes">
+      <div class="change-row">
+        <p class="change-period">Daily</p>
+        <div class="change-values">
+          <span class="change-abs" id="m-daily-abs">—</span>
+          <span class="change-pct" id="m-daily-pct"></span>
+        </div>
+        <p class="change-from" id="m-daily-from"></p>
+      </div>
+      <div class="change-row">
+        <p class="change-period">Weekly</p>
+        <div class="change-values">
+          <span class="change-abs" id="m-weekly-abs">—</span>
+          <span class="change-pct" id="m-weekly-pct"></span>
+        </div>
+        <p class="change-from" id="m-weekly-from"></p>
+      </div>
+      <div class="change-row">
+        <p class="change-period">Monthly</p>
+        <div class="change-values">
+          <span class="change-abs" id="m-monthly-abs">—</span>
+          <span class="change-pct" id="m-monthly-pct"></span>
+        </div>
+        <p class="change-from" id="m-monthly-from"></p>
+      </div>
+      <div class="change-row">
+        <p class="change-period">Quarterly</p>
+        <div class="change-values">
+          <span class="change-abs" id="m-quarterly-abs">—</span>
+          <span class="change-pct" id="m-quarterly-pct"></span>
+        </div>
+        <p class="change-from" id="m-quarterly-from"></p>
+      </div>
+      <div class="change-row" style="grid-column: 1 / -1;">
+        <p class="change-period">Yearly</p>
+        <div class="change-values">
+          <span class="change-abs" id="m-yearly-abs">—</span>
+          <span class="change-pct" id="m-yearly-pct"></span>
+        </div>
+        <p class="change-from" id="m-yearly-from"></p>
+      </div>
+    </div>
+
+    <p class="modal-footer">
+      FBIL publishes at 1:00 PM IST on Mumbai business days only.<br>
+      Non-trading days show the last available rate.
+    </p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <p class="footer-copy">&copy; 2026 Viram Chheda. All rights reserved.</p>
+    <p class="footer-domain">viramchheda.capital</p>
+  </div>
+</footer>
+
+<script>
+  // ── UTILITIES ──────────────────────────────────────────────
+
+  // Format date as YYYY-MM-DD for API calls
+  function fmt(date) {
+    return date.toISOString().split('T')[0];
+  }
+
+  // Format date for display
+  function fmtDisplay(dateStr) {
+    const d = new Date(dateStr + 'T00:00:00');
+    return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  // Step back date by N days
+  function subtractDays(date, n) {
+    const d = new Date(date);
+    d.setDate(d.getDate() - n);
+    return d;
+  }
+
+  // Get most recent Monday on or before a given date
+  function getLastMonday(date) {
+    const d = new Date(date);
+    const day = d.getDay(); // 0=Sun, 1=Mon...
+    const diff = day === 0 ? 6 : day - 1;
+    d.setDate(d.getDate() - diff);
+    return d;
+  }
+
+  // Get Indian FY quarter start date for a given date
+  function getQuarterStart(date) {
+    const d = new Date(date);
+    const m = d.getMonth(); // 0-indexed
+    const y = d.getFullYear();
+    if (m >= 3 && m <= 5) return new Date(y, 3, 1);   // Q1: Apr 1
+    if (m >= 6 && m <= 8) return new Date(y, 6, 1);   // Q2: Jul 1
+    if (m >= 9 && m <= 11) return new Date(y, 9, 1);  // Q3: Oct 1
+    return new Date(y, 0, 1);                          // Q4: Jan 1
+  }
+
+  // Get Jan 1 of current year
+  function getYearStart(date) {
+    return new Date(date.getFullYear(), 0, 1);
+  }
+
+  // Fetch rate for a specific date — steps back up to 5 days to find a trading day
+  async function fetchRateOnOrBefore(dateObj) {
+    for (let i = 0; i <= 5; i++) {
+      const d = new Date(dateObj);
+      d.setDate(d.getDate() - i);
+      const dateStr = fmt(d);
+      try {
+        const res = await fetch(
+          `https://api.frankfurter.dev/v2/rates?base=USD&symbols=INR&date=${dateStr}&providers=FBIL`
+        );
+        if (!res.ok) continue;
+        const data = await res.json();
+        const rate = data?.rates?.INR;
+        if (rate) return { rate: parseFloat(rate), date: dateStr };
+      } catch (e) { continue; }
+    }
+    return null;
+  }
+
+  // ── CHANGE CALCULATION ────────────────────────────────────
+
+  function calcChange(current, previous) {
+    const abs = current - previous;
+    const pct = (abs / previous) * 100;
+    return { abs: abs.toFixed(4), pct: pct.toFixed(2) };
+  }
+
+  // Colour class: rate up = INR weaker = red; rate down = INR stronger = green
+  function colourClass(abs) {
+    if (parseFloat(abs) > 0) return 'up';
+    if (parseFloat(abs) < 0) return 'down';
+    return 'flat';
+  }
+
+  function signedAbs(abs) {
+    const n = parseFloat(abs);
+    return (n > 0 ? '+' : '') + n.toFixed(4);
+  }
+
+  function signedPct(pct) {
+    const n = parseFloat(pct);
+    return (n > 0 ? '+' : '') + n.toFixed(2) + '%';
+  }
+
+  // ── POPULATE MODAL CHANGE ROW ─────────────────────────────
+
+  function fillRow(prefix, current, refObj) {
+    if (!refObj) {
+      document.getElementById(`m-${prefix}-abs`).textContent = 'N/A';
+      return;
+    }
+    const { abs, pct } = calcChange(current, refObj.rate);
+    const cls = colourClass(abs);
+    const absEl  = document.getElementById(`m-${prefix}-abs`);
+    const pctEl  = document.getElementById(`m-${prefix}-pct`);
+    const fromEl = document.getElementById(`m-${prefix}-from`);
+    absEl.textContent  = signedAbs(abs);
+    absEl.className    = `change-abs ${cls}`;
+    pctEl.textContent  = signedPct(pct);
+    pctEl.className    = `change-pct ${cls}`;
+    fromEl.textContent = `vs ${fmtDisplay(refObj.date)}`;
+  }
+
+  // ── MAIN DATA FETCH ───────────────────────────────────────
+
+  let dashData = {}; // store fetched data for modal reuse
+
+  async function fetchAll() {
+    const today = new Date();
+
+    // Fetch today's rate (or last trading day)
+    const todayResult = await fetchRateOnOrBefore(today);
+    if (!todayResult) {
+      document.getElementById('card-rate').innerHTML = '<span style="font-size:14px;color:var(--cream-dim)">Unavailable</span>';
+      document.getElementById('update-time').textContent = 'Data unavailable';
+      return;
+    }
+
+    const { rate: currentRate, date: currentDate } = todayResult;
+
+    // Reference dates
+    const prevTradingDay  = subtractDays(new Date(currentDate + 'T00:00:00'), 1);
+    const lastMonday      = getLastMonday(new Date(currentDate + 'T00:00:00'));
+    const monthStart      = new Date(today.getFullYear(), today.getMonth(), 1);
+    const quarterStart    = getQuarterStart(today);
+    const yearStart       = getYearStart(today);
+
+    // Fetch all reference rates in parallel
+    const [dailyRef, weeklyRef, monthlyRef, quarterlyRef, yearlyRef] = await Promise.all([
+      fetchRateOnOrBefore(prevTradingDay),
+      fetchRateOnOrBefore(lastMonday),
+      fetchRateOnOrBefore(monthStart),
+      fetchRateOnOrBefore(quarterStart),
+      fetchRateOnOrBefore(yearStart),
+    ]);
+
+    // Store for modal
+    dashData = { currentRate, currentDate, dailyRef, weeklyRef, monthlyRef, quarterlyRef, yearlyRef };
+
+    // ── POPULATE CARD ──
+    document.getElementById('card-rate').textContent = currentRate.toFixed(4);
+
+    if (dailyRef) {
+      const { abs, pct } = calcChange(currentRate, dailyRef.rate);
+      const cls = colourClass(abs);
+      document.getElementById('card-daily-change').textContent =
+        `${signedAbs(abs)}  (${signedPct(pct)})`;
+      document.getElementById('card-daily-change').className = `card-change ${cls}`;
+    }
+
+    // ── UPDATE TIMESTAMP ──
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' });
+    document.getElementById('update-time').textContent =
+      `Rate: ${fmtDisplay(currentDate)} · Fetched ${timeStr} IST`;
+  }
+
+  // ── MODAL LOGIC ───────────────────────────────────────────
+
+  function openModal() {
+    const { currentRate, currentDate, dailyRef, weeklyRef, monthlyRef, quarterlyRef, yearlyRef } = dashData;
+    if (!currentRate) return;
+
+    document.getElementById('modal-rate').textContent = currentRate.toFixed(4);
+    document.getElementById('modal-source').textContent =
+      `Source: FBIL via Frankfurter  ·  As of ${fmtDisplay(currentDate)}`;
+
+    fillRow('daily',     currentRate, dailyRef);
+    fillRow('weekly',    currentRate, weeklyRef);
+    fillRow('monthly',   currentRate, monthlyRef);
+    fillRow('quarterly', currentRate, quarterlyRef);
+    fillRow('yearly',    currentRate, yearlyRef);
+
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('modal')) closeModal();
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // ── AUTO-REFRESH AT 2PM IST ──────────────────────────────
+
+  function scheduleRefresh() {
+    const now    = new Date();
+    const IST    = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const target = new Date(IST);
+    target.setHours(14, 0, 0, 0);
+    let ms = target - IST;
+    if (ms < 0) ms += 86400000; // already past 2pm — schedule for tomorrow
+    setTimeout(() => { fetchAll(); scheduleRefresh(); }, ms);
+  }
+
+  // ── INIT ─────────────────────────────────────────────────
+  fetchAll();
+  scheduleRefresh();
+</script>
+
+</body>
+</html>
